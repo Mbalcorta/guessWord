@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import LetterPlaceHolder from '../LetterPlaceHolder/LetterPlaceHolder.js';
+import './Game.css';
 
 class Game extends Component {
   constructor(props){
@@ -33,7 +34,7 @@ class Game extends Component {
   render(){
     const { word } = this.state
     return(
-      <div>
+      <div className="letterSlots">
         <LetterPlaceHolder word={word} />
       </div>
     );
