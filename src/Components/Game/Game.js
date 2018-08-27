@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import LetterPlaceHolder from '../LetterPlaceHolder/LetterPlaceHolder.js';
+import LettersPlaceHolder from '../LettersPlaceHolder/LettersPlaceHolder.js';
 import './Game.css';
+import kittenStars from "../../kittenStars.png";
 
 class Game extends Component {
   constructor(props){
@@ -10,11 +11,16 @@ class Game extends Component {
     this.state = {
       winner: false,
       counter: 6,
-      word: '',
+      secreteWord: '',
+      letterGuess: '',
       difficulty: 1,
       wordIndex: 1,
-      foundLetters: {}
+      foundLetters: {},
+      loading: true,
     };
+
+    this.searchForMatches = this.searchForMatches.bind(this);
+    this.setGuess = this.setGuess.bind(this);
   }
 
   componentDidMount(){
@@ -24,21 +30,68 @@ class Game extends Component {
     axios.get(getWordUrl)
      .then((response) => {
        this.setState({
-         word: response.data,
-         wordIndex: nextWord
+        secreteWord: response.data,
+        wordIndex: nextWord,
+        loading: false
        });
     })
    .catch(console.error)
   }
 
-  render(){
-    const { word } = this.state
-    return(
-      <div className="letterSlots">
-        <LetterPlaceHolder word={word} />
-      </div>
-    );
+  searchForMatches(e){
+    e.preventDefault();
+    const { letterGuess } = this.state; 
+    if(letterGuess && letterGuess.length <= 1){
+      console.log('hello');
+    } else {
+      alert('must enter in a single letter to play');
+    }
   }
+
+  setGuess(e){
+    const letterGuess = e.target.value.toLowerCase();
+    this.setState({
+      letterGuess: letterGuess
+    }, () => console.log(this.state.letterGuess));
+  }
+
+  render(){
+    const { secreteWord, loading } = this.state;
+    let pageContent = null;
+    if(loading){
+      pageContent = (<div className="loading">Loading...</div>);
+    } else {
+      pageContent = (
+        <div style={{display: loading ? 'none': 'block'}}>
+          <header className="main-header">
+          <div className="main-header__svg-container">
+            <img className="main-header__img" src={ kittenStars } />
+          </div>
+          <h1 className="main-header__title"> Translate kitten secret word one letter at a time </h1>
+          </header>
+          <section className="container">
+            <div>
+              <form onSubmit={this.searchForMatches}>
+                <div>
+                  <input id="letterInput" type="text" name="letter" placeholder="Type One Letter" onChange={this.setGuess}/>
+                </div>
+                <button type="submit">Guess</button>
+              </form>
+              <div className="letterSlots">
+                <LettersPlaceHolder secreteWord={secreteWord} />
+              </div>
+            </div>
+            {/* <Message message="Welcome to the react-starter. Start hacking away!" /> */}
+          </section>
+        </div>
+      )
+    }
+      return (
+        <div>
+          {pageContent}
+        </div>
+      );
+    }
 }
 
 export default Game; 
