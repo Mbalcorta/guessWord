@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import LetterPlaceHolder from '../LetterPlaceHolder/LetterPlaceHolder.js';
 
 class Game extends Component {
   constructor(props){
@@ -8,29 +9,32 @@ class Game extends Component {
     this.state = {
       winner: false,
       counter: 6,
-      word: 'wood',
+      word: '',
       difficulty: 1,
+      wordIndex: 1,
       foundLetters: {}
     };
   }
 
   componentDidMount(){
-    const { difficulty } = this.state;
-    const getWordUrl = `https://wordapi.herokuapp.com/?difficulty=${difficulty}&start=10&count=1`;
-     axios.get(getWordUrl)
-     .then(function (response) {
-     console.log(response.data);
-   })
-   .catch(function (error) {
-    console.log(error);
-   })
+    const { difficulty, wordIndex } = this.state;
+    const getWordUrl = `https://wordapi.herokuapp.com/?difficulty=${difficulty}&start=${wordIndex}&count=1`;
+    const nextWord = wordIndex + 1;
+    axios.get(getWordUrl)
+     .then((response) => {
+       this.setState({
+         word: response.data,
+         wordIndex: nextWord
+       });
+    })
+   .catch(console.error)
   }
 
   render(){
+    const { word } = this.state
     return(
       <div>
-        Hello
-        {this.state.word}
+        <LetterPlaceHolder word={word} />
       </div>
     );
   }
