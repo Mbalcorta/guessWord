@@ -14,7 +14,7 @@ class Game extends Component {
       counter: 6,
       secreteWord: '',
       letterGuess: '',
-      difficulty: 1,
+      difficulty: 5,
       wordIndex: 1,
       foundLetters: {},
       loading: true,
@@ -35,7 +35,7 @@ class Game extends Component {
         secreteWord: response.data,
         wordIndex: nextWord,
         loading: false
-       });
+       }, () => console.log('secrete word ',this.state.secreteWord));
     })
    .catch(console.error)
   }
@@ -47,9 +47,10 @@ class Game extends Component {
       const secreteArray = secreteWord.split('');
       secreteArray.forEach((element, index) => {
         if(letterGuess === element){
-          let foundLetters = Object.assign({}, this.state.foundLetters); 
-          foundLetters[index] = element;
-          this.setState({foundLetters}, () => console.log(this.state.foundLetters));
+          let newFoundLetter = this.state.foundLetters;
+          newFoundLetter[index] = element;
+          let foundLetters = Object.assign(newFoundLetter, this.state.foundLetters);
+          this.setState({foundLetters});
         }
       });
       this.setState({
@@ -62,11 +63,11 @@ class Game extends Component {
     }
   }
 
-  setGuess = () => {
+  setGuess(){
       const letterGuess = this.inputField.current.value.toLowerCase();
       this.setState({
         letterGuess: letterGuess
-      }, () => console.log(this.state.letterGuess));
+      });
   }
 
   render(){
