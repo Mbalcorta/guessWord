@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import LetterSlot from '../LetterSlot/LetterSlot.js';
 
 const LettersPlaceHolder = (props) => {
-  const { secreteWord } = props;
+  const { secreteWord, foundLetters } = props;
   if(secreteWord){
     const secreteWordArray = secreteWord.split('');
     return(
-      secreteWordArray.map((element, index)=>< LetterSlot key={index}/>)
+      secreteWordArray.map((element, index)=>< LetterSlot key={index} index={index} foundLetters={foundLetters}/>)
     );
   }
 };
