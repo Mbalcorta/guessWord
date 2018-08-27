@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 
 const LetterPlaceHolder = (props) => {
+  const { word } = props;
+  const wordsArray = word.split('');
+
   return (
-    <div className="message">
-      <p> {props.word} </p>
-    </div>
+      wordsArray.map((element, index)=><span key={index} id={index}>_________ </span>)
   );
+  
 };
 
 LetterPlaceHolder.propTypes = {
