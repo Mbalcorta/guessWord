@@ -5,6 +5,7 @@ import './Game.css';
 import kittenStars from "../../kittenStars.png";
 
 class Game extends Component {
+  
   constructor(props){
     super(props);
 
@@ -19,10 +20,11 @@ class Game extends Component {
       loading: true,
     };
 
+    this.inputField = React.createRef();
     this.searchForMatches = this.searchForMatches.bind(this);
     this.setGuess = this.setGuess.bind(this);
   }
-
+  
   componentDidMount(){
     const { difficulty, wordIndex } = this.state;
     const getWordUrl = `https://wordapi.herokuapp.com/?difficulty=${difficulty}&start=${wordIndex}&count=1`;
@@ -54,15 +56,17 @@ class Game extends Component {
         letterGuess: ''
       });
     } else {
-      alert('must enter in a single letter to play');
+      this.setState({
+        letterGuess: ''
+      }, () =>  alert('must enter in a single letter to play'));
     }
   }
 
-  setGuess(e){
-    const letterGuess = e.target.value.toLowerCase();
-    this.setState({
-      letterGuess: letterGuess
-    });
+  setGuess = () => {
+      const letterGuess = this.inputField.current.value.toLowerCase();
+      this.setState({
+        letterGuess: letterGuess
+      }, () => console.log(this.state.letterGuess));
   }
 
   render(){
@@ -83,7 +87,7 @@ class Game extends Component {
             <div>
               <form onSubmit={this.searchForMatches}>
                 <div>
-                  <input id="letterInput" type="text" name="letter" placeholder="Type One Letter" onChange={this.setGuess} value={letterGuess}/>
+                  <input id="letterInput" type="text" name="letter" placeholder="Type One Letter" ref={this.inputField} onChange={this.setGuess} value={letterGuess}/>
                 </div>
                 <button type="submit">Guess</button>
               </form>
