@@ -40,9 +40,19 @@ class Game extends Component {
 
   searchForMatches(e){
     e.preventDefault();
-    const { letterGuess } = this.state; 
+    const { letterGuess, secreteWord } = this.state; 
     if(letterGuess && letterGuess.length <= 1){
-      console.log('hello');
+      const secreteArray = secreteWord.split('');
+      secreteArray.forEach((element, index) => {
+        if(letterGuess === element){
+          let foundLetters = Object.assign({}, this.state.foundLetters); 
+          foundLetters[index] = element;
+          this.setState({foundLetters}, () => console.log(this.state.foundLetters));
+        }
+      });
+      this.setState({
+        letterGuess: ''
+      });
     } else {
       alert('must enter in a single letter to play');
     }
@@ -52,11 +62,11 @@ class Game extends Component {
     const letterGuess = e.target.value.toLowerCase();
     this.setState({
       letterGuess: letterGuess
-    }, () => console.log(this.state.letterGuess));
+    });
   }
 
   render(){
-    const { secreteWord, loading } = this.state;
+    const { secreteWord, loading, letterGuess } = this.state;
     let pageContent = null;
     if(loading){
       pageContent = (<div className="loading">Loading...</div>);
@@ -73,7 +83,7 @@ class Game extends Component {
             <div>
               <form onSubmit={this.searchForMatches}>
                 <div>
-                  <input id="letterInput" type="text" name="letter" placeholder="Type One Letter" onChange={this.setGuess}/>
+                  <input id="letterInput" type="text" name="letter" placeholder="Type One Letter" onChange={this.setGuess} value={letterGuess}/>
                 </div>
                 <button type="submit">Guess</button>
               </form>
