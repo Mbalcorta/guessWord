@@ -7,9 +7,18 @@ class LetterSlot extends Component {
   }
 
   render(){
-    return(
-      <span ref={this.letterRef}>_________ </span>
-    );
+
+    const {index, foundLetters} = this.props;
+
+    if(foundLetters[index]){
+      return(
+        <span ref={this.letterRef}>{foundLetters[index]}</span>
+     );
+    } else {
+      return(
+        <span ref={this.letterRef}>_________ </span>
+     );
+    }
   }
 }
 
