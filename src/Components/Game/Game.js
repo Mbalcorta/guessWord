@@ -70,7 +70,7 @@ class Game extends Component {
   }
 
   render(){
-    const { secreteWord, loading, letterGuess } = this.state;
+    const { secreteWord, loading, letterGuess, foundLetters } = this.state;
     let pageContent = null;
     if(loading){
       pageContent = (<div className="loading">Loading...</div>);
@@ -92,7 +92,7 @@ class Game extends Component {
                 <button type="submit">Guess</button>
               </form>
               <div className="letterSlots">
-                <LettersPlaceHolder secreteWord={secreteWord} />
+                <LettersPlaceHolder secreteWord={secreteWord} foundLetters={foundLetters} />
               </div>
             </div>
             {/* <Message message="Welcome to the react-starter. Start hacking away!" /> */}
