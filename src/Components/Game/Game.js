@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import $ from 'jquery'; 
+import axios from 'axios';
 
 class Game extends Component {
   constructor(props){
@@ -17,14 +17,13 @@ class Game extends Component {
   componentDidMount(){
     const { difficulty } = this.state;
     const getWordUrl = `https://wordapi.herokuapp.com/?difficulty=${difficulty}&start=10&count=1`;
-    $.ajax({
-      method: 'GET',
-      url: getWordUrl,
-      dataType: 'jsonp', //change the datatype to 'jsonp' works in most cases
-      success: (res) => {
-       console.log(res.text());
-      }
-    });
+     axios.get(getWordUrl)
+     .then(function (response) {
+     console.log(response.data);
+   })
+   .catch(function (error) {
+    console.log(error);
+   })
   }
 
   render(){
