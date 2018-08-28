@@ -115,7 +115,7 @@ class Game extends Component {
   }
 
   render(){
-    const { secreteWord, loading, letterGuess, foundLetters, wrongGuess, winner } = this.state;
+    const { secreteWord, loading, letterGuess, foundLetters, wrongGuess, winner, counter } = this.state;
     let pageContent = null;
     let gameState = null;
 
@@ -139,7 +139,8 @@ class Game extends Component {
     } else {
      gameState = (
      <section className="container">
-      <div>Wrong Guess Count: {wrongGuess}</div>
+     <div>Guesses Remaining:{counter - wrongGuess}</div>
+      <div>Incorrect Guesses: {wrongGuess}</div>
         <div>
           <form onSubmit={this.searchForMatches}>
             <div>
