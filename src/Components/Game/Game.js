@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import PlayAgainButton from '../PlayAgainButton/PlayAgainButton.js';
 import LettersPlaceHolder from '../LettersPlaceHolder/LettersPlaceHolder.js';
 import './Game.css';
 import kittenStars from "../../kittenStars.png";
@@ -24,6 +25,7 @@ class Game extends Component {
     this.inputField = React.createRef();
     this.searchForMatches = this.searchForMatches.bind(this);
     this.setGuess = this.setGuess.bind(this);
+    this.restartGame = this.restartGame.bind(this);
   }
   
   componentDidMount(){
@@ -53,7 +55,11 @@ class Game extends Component {
             let newFoundLetter = this.state.foundLetters;
             newFoundLetter[index] = element;
             const foundLetters = Object.assign(newFoundLetter, this.state.foundLetters);
-            this.setState({foundLetters});
+            this.setState({foundLetters}, () => {
+              if(Object.keys(foundLetters).length === secreteWord.length){
+                this.setState({winner:true});
+              }
+            });
           }
         });
       } else {
@@ -83,13 +89,34 @@ class Game extends Component {
       });
   }
 
+  restartGame(){
+    console.log('in here restarting');
+  }
+
   render(){
-    const { secreteWord, loading, letterGuess, foundLetters, wrongGuess } = this.state;
+    const { secreteWord, loading, letterGuess, foundLetters, wrongGuess, winner } = this.state;
     let pageContent = null;
     let gameState = null;
 
     if(wrongGuess === 6){
-     gameState = (<div>Game Over</div>);
+//need to build out when user has lost and wants to play again
+//change wordindex so person does not get same word
+     gameState = (
+     <div>
+      <p>Game Over</p>
+      <p>Computer has won</p>
+      <PlayAgainButton text="Play Again" onClick={this.restartGame}/>
+     </div>
+    );
+    } else if(winner) {
+//yarn balls fall down the screen
+      gameState = (
+      <div>
+        <div>You have won!</div>
+        <PlayAgainButton text="Next Round"/>
+      </div>
+    );
+     
     } else {
      gameState = (
      <section className="container">
