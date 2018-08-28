@@ -1,0 +1,9 @@
+.slotWrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+span p {
+  font-size: 3em;
+  /* margin-left: 20px; */
+}
