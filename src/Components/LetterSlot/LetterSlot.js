@@ -1,25 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class LetterSlot extends Component {
-  constructor(props){
-    super(props);
-    this.letterRef = React.createRef();
+const LetterSlot = (props) => {
+  const {index, foundLetters} = props;
+  if(foundLetters[index]){
+    return(
+      <span>{foundLetters[index]}</span>
+    );
+  } else {
+    return(
+      <span>_________ </span>
+    );
   }
-
-  render(){
-
-    const {index, foundLetters} = this.props;
-
-    if(foundLetters[index]){
-      return(
-        <span ref={this.letterRef}>{foundLetters[index]}</span>
-     );
-    } else {
-      return(
-        <span ref={this.letterRef}>_________ </span>
-     );
-    }
-  }
-}
+};
 
 export default LetterSlot;
