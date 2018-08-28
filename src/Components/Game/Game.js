@@ -26,17 +26,20 @@ class Game extends Component {
     this.searchForMatches = this.searchForMatches.bind(this);
     this.setGuess = this.setGuess.bind(this);
     this.restartGame = this.restartGame.bind(this);
+    this.getSecreteWord = this.getSecreteWord.bind(this);
   }
   
   componentDidMount(){
+    this.getSecreteWord();
+  }
+
+  getSecreteWord(){
     const { difficulty, wordIndex } = this.state;
     const getWordUrl = `https://wordapi.herokuapp.com/?difficulty=${difficulty}&start=${wordIndex}&count=1`;
-    const nextWord = wordIndex + 1;
     axios.get(getWordUrl)
      .then((response) => {
        this.setState({
         secreteWord: response.data,
-        wordIndex: nextWord,
         loading: false
        }, () => console.log('secrete word ',this.state.secreteWord));
     })
@@ -90,7 +93,18 @@ class Game extends Component {
   }
 
   restartGame(){
-    console.log('in here restarting');
+    const { wordIndex } = this.state;
+    const nextSecreteWord = wordIndex + 1; 
+    this.setState({
+      winner: false,
+      counter: 6,
+      letterGuess: '',
+      difficulty: 1,
+      wordIndex: nextSecreteWord,
+      foundLetters: {},
+      wrongGuess: 0,
+      loading: true,
+    }, () => this.getSecreteWord());
   }
 
   render(){
@@ -99,21 +113,19 @@ class Game extends Component {
     let gameState = null;
 
     if(wrongGuess === 6){
-//need to build out when user has lost and wants to play again
-//change wordindex so person does not get same word
-     gameState = (
-     <div>
-      <p>Game Over</p>
-      <p>Computer has won</p>
-      <PlayAgainButton text="Play Again" onClick={this.restartGame}/>
-     </div>
-    );
+      gameState = (
+      <div>
+        <p>Game Over</p>
+        <p>Computer has won</p>
+        <PlayAgainButton text="Play Again" restartGame={this.restartGame}/>
+      </div>
+      );
     } else if(winner) {
 //yarn balls fall down the screen
       gameState = (
       <div>
-        <div>You have won!</div>
-        <PlayAgainButton text="Next Round"/>
+        <div>Round Two!</div>
+        <PlayAgainButton text="Start"/>
       </div>
     );
      
