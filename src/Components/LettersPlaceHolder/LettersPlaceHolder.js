@@ -13,7 +13,8 @@ const LettersPlaceHolder = (props) => {
 };
 
 LettersPlaceHolder.propTypes = {
-  secreteWord: PropTypes.string
+  secreteWord: PropTypes.string,
+  foundLetters: PropTypes.object
 };
 
 export default LettersPlaceHolder;
