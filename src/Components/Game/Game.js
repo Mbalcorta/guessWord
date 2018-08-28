@@ -27,6 +27,7 @@ class Game extends Component {
     this.setGuess = this.setGuess.bind(this);
     this.restartGame = this.restartGame.bind(this);
     this.getSecreteWord = this.getSecreteWord.bind(this);
+    this.levelUp = this.levelUp.bind(this);
   }
   
   componentDidMount(){
@@ -92,19 +93,25 @@ class Game extends Component {
       });
   }
 
-  restartGame(){
+  restartGame(difficultyLevel){
     const { wordIndex } = this.state;
     const nextSecreteWord = wordIndex + 1; 
     this.setState({
       winner: false,
       counter: 6,
       letterGuess: '',
-      difficulty: 1,
+      difficulty: difficultyLevel,
       wordIndex: nextSecreteWord,
       foundLetters: {},
       wrongGuess: 0,
       loading: true,
     }, () => this.getSecreteWord());
+  }
+
+  levelUp(){
+    const { difficulty } = this.state; 
+    const nextLevel = difficulty + 1; 
+    this.restartGame(nextLevel);
   }
 
   render(){
@@ -117,15 +124,15 @@ class Game extends Component {
       <div>
         <p>Game Over</p>
         <p>Computer has won</p>
-        <PlayAgainButton text="Play Again" restartGame={this.restartGame}/>
+        <PlayAgainButton text="Play Again" restartGame={() => this.restartGame(1)}/>
       </div>
       );
     } else if(winner) {
 //yarn balls fall down the screen
       gameState = (
       <div>
-        <div>Round Two!</div>
-        <PlayAgainButton text="Start"/>
+        <div>You guessed the secrete word: {secreteWord}, next Round!</div>
+        <PlayAgainButton text="Start" levelUp={this.levelUp}/>
       </div>
     );
      
