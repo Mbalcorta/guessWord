@@ -1,4 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .App {
+  display: flex;
+  font-family: 'Chewy', cursive;
+}
+/* .App {
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -15,7 +25,7 @@
 .main-header__title {
   text-align: center;
   padding-bottom: 1rem;
-}
+} */
 
 
 /* .App {
