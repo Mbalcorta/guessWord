@@ -184,7 +184,7 @@ class Game extends Component {
           <header className="main-header">
             <div className="playsRemainingHeader">
               <div>Guesses Remaining: {guessesRemaining}</div>
-              <div>Incorrect Guesses: {wrongGuess}</div>
+              <div>Incorrect Guesses: {wrongGuess.map(letter => ` ${letter} `)}</div>
             </div>
             <div className="main-header__svg-container">
               <img className="main-header__img" src={ kittenStars } />
