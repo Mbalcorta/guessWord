@@ -7,13 +7,16 @@ const LetterSlot = (props) => {
   if(foundLetters[index]){
     return(
       <div className="slotWrapper">
-      <p>{foundLetters[index]}</p>
-      <span>_________ </span>
+        <p>{foundLetters[index]}</p>
+        <span>_________ </span>
       </div>
     );
   } else {
     return(
-      <span>_________ </span>
+      <div className="slotWrapper">
+        <p></p>
+        <span>_________ </span>
+      </div>
     );
   }
 };
