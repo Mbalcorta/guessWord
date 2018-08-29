@@ -26,6 +26,12 @@
   flex-wrap: wrap;
 }
 
+.header{
+  display:flex;
+  flex-direction: column;
+  align-items: center;  
+}
+
 input[type="text"] {
   font-size:25px;
 }
