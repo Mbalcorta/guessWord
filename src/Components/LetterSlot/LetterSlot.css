@@ -1,0 +1,15 @@
+.slotWrapper p {
+  font-size: 3em;
+  color: rgb(29, 28, 57);
+}
+
+span p {
+  width: 100%;
+}
+
+.slotWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
