@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import GameContinueOrOver from '../GameContinueOrOver/GameContinueOrOver.js';
 import PlayAgainButton from '../PlayAgainButton/PlayAgainButton.js';
 import LettersPlaceHolder from '../LettersPlaceHolder/LettersPlaceHolder.js';
 import './Game.css';
@@ -12,13 +13,13 @@ class Game extends Component {
 
     this.state = {
       winner: false,
-      counter: 6,
+      guessesRemaining: 6,
       secretWord: '',
       letterGuess: '',
       difficulty: 1,
       wordIndex: 1,
       foundLetters: {},
-      wrongGuess: 0,
+      wrongGuess: [],
       loading: true,
     };
 
@@ -49,8 +50,9 @@ class Game extends Component {
 
   searchForMatches(e){
     e.preventDefault();
-    const { letterGuess, secretWord, wrongGuess } = this.state; 
-    let notFound = false; 
+    const { letterGuess, secretWord, wrongGuess, guessesRemaining } = this.state; 
+    let notFound = false;
+    const postGuessesLeft = guessesRemaining - 1;  
     if(letterGuess && letterGuess.length <= 1){
       const secretArray = secretWord.split('');
       if(secretArray.indexOf(letterGuess) > -1){
@@ -59,9 +61,14 @@ class Game extends Component {
             let newFoundLetter = this.state.foundLetters;
             newFoundLetter[index] = element;
             const foundLetters = Object.assign(newFoundLetter, this.state.foundLetters);
-            this.setState({foundLetters}, () => {
+            this.setState({
+              foundLetters,
+              guessesRemaining: postGuessesLeft 
+              }, () => {
               if(Object.keys(foundLetters).length === secretWord.length){
-                this.setState({winner:true});
+                this.setState({
+                  winner:true
+                });
               }
             });
           }
@@ -70,15 +77,21 @@ class Game extends Component {
         notFound = true; 
       }
       
-      if(notFound){
-        const wrongGuessPlusOne = wrongGuess + 1; 
-        this.setState({
-          wrongGuess: wrongGuessPlusOne
-        });
+      if(notFound){ 
+        if(wrongGuess.indexOf(letterGuess) > -1){
+          alert('Already Guessed this letter');
+        } else {
+          this.setState({
+            guessesRemaining: postGuessesLeft, 
+            wrongGuess: this.state.wrongGuess.concat(letterGuess)
+          });
+        }
       }
+
       this.setState({
         letterGuess: ''
       });
+      
     } else {
       this.setState({
         letterGuess: ''
@@ -98,12 +111,12 @@ class Game extends Component {
     const nextSecretWord = wordIndex + 1; 
     this.setState({
       winner: false,
-      counter: 6,
+      guessesRemaining: 6,
       letterGuess: '',
       difficulty: difficultyLevel,
       wordIndex: nextSecretWord,
       foundLetters: {},
-      wrongGuess: 0,
+      wrongGuess: [],
       loading: true,
     }, () => this.getSecretWord());
   }
@@ -122,27 +135,28 @@ class Game extends Component {
       foundLetters, 
       wrongGuess, 
       winner, 
-      counter 
+      guessesRemaining
     } = this.state;
 
     let pageContent = null;
     let gameState = null;
 
-    if(wrongGuess === 6){
+    if(guessesRemaining === 0){
       gameState = (
-      <div>
-        <p>Game Over</p>
-        <p>Computer has won</p>
-        <PlayAgainButton text="Play Again" restartGame={() => this.restartGame(1)}/>
-      </div>
+      <GameContinueOrOver header="Game Over" subHeader="Computer has won" text="Play Again" func={this.restartGame(1)}/>
       );
     } else if(winner) {
+   
 //yarn balls fall down the screen
-      gameState = (
-      <div>
-        <div>You guessed the secret word: {secretWord}, next Round!</div>
-        <PlayAgainButton text="Start" levelUp={this.levelUp}/>
-      </div>
+      gameState = ( 
+        <div>
+          <div className="pageContent">
+            <div className="letterSlots">
+              <LettersPlaceHolder secretWord={secretWord} foundLetters={foundLetters} />
+            </div>
+          </div>
+          <GameContinueOrOver header="You guessed the secret word:" subHeader="next Round!" text="Start" func={() => this.levelUp}/>
+       </div>
     );
      
     } else {
@@ -169,7 +183,7 @@ class Game extends Component {
         <div>
           <header className="main-header">
             <div className="playsRemainingHeader">
-              <div>Guesses Remaining: {counter - wrongGuess}</div>
+              <div>Guesses Remaining: {guessesRemaining}</div>
               <div>Incorrect Guesses: {wrongGuess}</div>
             </div>
             <div className="main-header__svg-container">
