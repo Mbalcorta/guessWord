@@ -8,7 +8,7 @@ const { header, subHeader, text, func } = props;
   <div className="gameContWrapper">
     <p>{header}</p>
     <p>{subHeader}</p>
-    <PlayAgainButton text={text} restartGame={() => func }/>
+    <PlayAgainButton text={text} onClickFunc={ func }/>
   </div>
  )
 }
