@@ -51,7 +51,6 @@ class Game extends Component {
     e.preventDefault();
     const { letterGuess, secretWord, wrongGuess, guessesRemaining } = this.state; 
     let notFound = false;
-    const postGuessesLeft = guessesRemaining - 1;  
     if(letterGuess && letterGuess.length <= 1){
       const secretArray = secretWord.split('');
       if(secretArray.indexOf(letterGuess) > -1){
@@ -61,8 +60,7 @@ class Game extends Component {
             newFoundLetter[index] = element;
             const foundLetters = Object.assign(newFoundLetter, this.state.foundLetters);
             this.setState({
-              foundLetters,
-              guessesRemaining: postGuessesLeft 
+              foundLetters
               }, () => {
               if(Object.keys(foundLetters).length === secretWord.length){
                 this.setState({
@@ -77,6 +75,7 @@ class Game extends Component {
       }
       
       if(notFound){ 
+        const postGuessesLeft = guessesRemaining - 1;
         if(wrongGuess.indexOf(letterGuess) > -1){
           alert('Already Guessed this letter');
         } else {
@@ -105,9 +104,7 @@ class Game extends Component {
       });
   }
 
-  restartGame(difficultyLevel){
-    const { wordIndex } = this.state;
-    const nextSecretWord = wordIndex + 1; 
+  restartGame(difficultyLevel, nextSecretWord){
     this.setState({
       winner: false,
       guessesRemaining: 6,
@@ -121,9 +118,15 @@ class Game extends Component {
   }
 
   levelUp(){
-    const { difficulty } = this.state; 
-    const nextLevel = difficulty + 1; 
-    this.restartGame(nextLevel);
+    const { difficulty, wordIndex } = this.state;
+    const nextSecretWord = wordIndex + 1;
+
+    if( difficulty === 10){
+      this.restartGame(difficulty, nextSecretWord);
+    } else {
+      const difficultyLevel = difficulty + 1;
+      this.restartGame(difficultyLevel, nextSecretWord);
+    }
   }
 
   render(){
@@ -181,6 +184,10 @@ class Game extends Component {
     if(loading){
       pageContent = (<div className="loading">Loading...</div>);
     } else {
+      let difficultyLevelText = (<h1 className="main-header__title">Difficulty Level: {difficulty}</h1>);
+      if(difficulty === 10){
+        difficultyLevelText = (<h1 className="main-header__title">Top Level {difficulty} Achieved!</h1>);
+      }
       pageContent = (
         <div>
           <header className="main-header">
@@ -192,7 +199,7 @@ class Game extends Component {
               <img className="main-header__img" src={ kittenStars } />
             </div>
             <div className="header">
-              <h1 className="main-header__title">Difficulty Level: {difficulty}</h1>
+              {difficultyLevelText}
               <h1 className="main-header__title"> Guess kittens secret word one letter at a time </h1>
             </div>
           </header>
