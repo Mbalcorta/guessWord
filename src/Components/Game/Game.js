@@ -75,7 +75,7 @@ class Game extends Component {
       }
       
       if(notFound){ 
-        const postGuessesLeft = guessesRemaining - 1;
+        const postGuessesLeft = guessesRemaining - 1;  
         if(wrongGuess.indexOf(letterGuess) > -1){
           alert('Already Guessed this letter');
         } else {
@@ -118,13 +118,13 @@ class Game extends Component {
   }
 
   levelUp(){
-    const { difficulty, wordIndex } = this.state;
-    const nextSecretWord = wordIndex + 1;
+    const { difficulty, wordIndex } = this.state; 
+    const nextSecretWord = wordIndex + 1; 
 
     if( difficulty === 10){
       this.restartGame(difficulty, nextSecretWord);
     } else {
-      const difficultyLevel = difficulty + 1;
+      const difficultyLevel = difficulty + 1; 
       this.restartGame(difficultyLevel, nextSecretWord);
     }
   }
