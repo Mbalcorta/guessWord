@@ -131,7 +131,8 @@ class Game extends Component {
       secretWord, 
       loading, 
       letterGuess, 
-      foundLetters, 
+      foundLetters,
+      difficulty, 
       wrongGuess, 
       winner, 
       guessesRemaining
@@ -190,7 +191,10 @@ class Game extends Component {
             <div className="main-header__svg-container">
               <img className="main-header__img" src={ kittenStars } />
             </div>
-            <h1 className="main-header__title"> Guess kittens secret word one letter at a time </h1>
+            <div className="header">
+              <h1 className="main-header__title">Difficulty Level: {difficulty}</h1>
+              <h1 className="main-header__title"> Guess kittens secret word one letter at a time </h1>
+            </div>
           </header>
           {gameState}
         </div>
