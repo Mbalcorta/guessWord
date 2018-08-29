@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import GameContinueOrOver from '../GameContinueOrOver/GameContinueOrOver.js';
-import PlayAgainButton from '../PlayAgainButton/PlayAgainButton.js';
 import LettersPlaceHolder from '../LettersPlaceHolder/LettersPlaceHolder.js';
 import './Game.css';
 import kittenStars from "../../kittenStars.png";
@@ -143,7 +142,9 @@ class Game extends Component {
 
     if(guessesRemaining === 0){
       gameState = (
-      <GameContinueOrOver header="Game Over" subHeader="Computer has won" text="Play Again" func={this.restartGame(1)}/>
+        <div>
+          <GameContinueOrOver header="Game Over" subHeader="Computer has won" text="Play Again" func={() => this.restartGame(1)}/>
+        </div>
       );
     } else if(winner) {
    
@@ -155,7 +156,7 @@ class Game extends Component {
               <LettersPlaceHolder secretWord={secretWord} foundLetters={foundLetters} />
             </div>
           </div>
-          <GameContinueOrOver header="You guessed the secret word:" subHeader="next Round!" text="Start" func={() => this.levelUp}/>
+          <GameContinueOrOver header="You guessed the secret word:" subHeader="next Round!" text="Start" func={() => this.levelUp()}/>
        </div>
     );
      
