@@ -54,10 +54,10 @@ class Game extends Component {
     if(letterGuess && letterGuess.length <= 1){
       const secretArray = secretWord.split('');
       if(secretArray.indexOf(letterGuess) > -1){
-        secretArray.forEach((element, index) => {
-          if(letterGuess === element){
+        secretArray.forEach((secreteLetter, index) => {
+          if(letterGuess === secreteLetter){
             let newFoundLetter = this.state.foundLetters;
-            newFoundLetter[index] = element;
+            newFoundLetter[index] = secreteLetter;
             const foundLetters = Object.assign(newFoundLetter, this.state.foundLetters);
             this.setState({
               foundLetters
@@ -137,17 +137,20 @@ class Game extends Component {
       foundLetters,
       difficulty, 
       wrongGuess, 
-      winner, 
+      winner,
+      wordIndex, 
       guessesRemaining
     } = this.state;
 
     let pageContent = null;
     let gameState = null;
-
+    let nextSecretWord = wordIndex + 1; 
+    let difficultyLevel = 1; 
+    
     if(guessesRemaining === 0){
       gameState = (
         <div>
-          <GameContinueOrOver header="Game Over" subHeader="Computer has won" text="Play Again" func={() => this.restartGame(1)}/>
+          <GameContinueOrOver header="Game Over" subHeader="Computer has won" text="Play Again" func={() => this.restartGame(difficultyLevel, nextSecretWord)}/>
         </div>
       );
     } else if(winner) {
