@@ -1,16 +1,19 @@
 ## Word guessing games with kittens
 
 ## Start
-  clone repo in terminal
+  open zip file on desktop
+  in terminal go to desktop
   cd guessWord
   npm install
   npm run start
 
 ## User instructions
-  Enter single letter into input field to guess kittens secret word and press 'Guess' to submit your guess. Every time you make a correct guess the kittens yarn ball gets closer and closer. 
+  Enter single letter into input field to guess kittens secret word and press 'Guess' to submit your guess. Guess the secret word and make this grumpy kitten happy. 
   
 ## creative extensions
   once user has submitted correct word, user has choice to either keep practicing at the same level or move up to the next level. 
+
+  Wanted to implement that as the user makes correct guesses a basket full of yarn gets closer and closer to the kitten till the word is guessed. 
 
 ## Thought process
   First step was getting API working and returning values I needed on the front end. Ended up building a deployed server side app to get data needed. Built using node.js and express.js. 
