@@ -28,6 +28,7 @@ class Game extends Component {
     this.restartGame = this.restartGame.bind(this);
     this.getSecretWord = this.getSecretWord.bind(this);
     this.levelUp = this.levelUp.bind(this);
+    this.keepPracticing = this.keepPracticing.bind(this);
   }
   
   componentDidMount(){
@@ -129,6 +130,14 @@ class Game extends Component {
     }
   }
 
+  keepPracticing(){
+    const { wordIndex,  difficulty } = this.state;
+    const nextWord = wordIndex + 1; 
+    this.setState({
+      wordIndex: nextWord
+    }, () => this.restartGame(difficulty, nextWord));
+  }
+
   render(){
     const { 
       secretWord, 
@@ -146,7 +155,7 @@ class Game extends Component {
     let gameState = null;
     let nextSecretWord = wordIndex + 1; 
     let difficultyLevel = 1; 
-    
+
     if(guessesRemaining === 0){
       gameState = (
         <div>
@@ -163,7 +172,7 @@ class Game extends Component {
               <LettersPlaceHolder secretWord={secretWord} foundLetters={foundLetters} />
             </div>
           </div>
-          <GameContinueOrOver header="You guessed the secret word:" subHeader="next Round!" text="Start" func={() => this.levelUp()}/>
+          <GameContinueOrOver header="You guessed the secret word:" subHeader="next Round!" levelUpText="Level Up" keepPracticingText="Keep Practicing" keepPracticingFunc={() => this.keepPracticing()} levelUpFunc={() => this.levelUp()}/>
        </div>
     );
      
