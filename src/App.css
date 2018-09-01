@@ -7,7 +7,7 @@
 .App {
   display: flex;
   font-family: 'Chewy', cursive;
-  background-color: aquamarine;
+  background-color: #7cbbcb;;
 }
 
 input:focus,
