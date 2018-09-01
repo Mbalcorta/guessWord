@@ -1,3 +1,11 @@
+.buttonsContainer{
+  display: flex;
+}
+
+.buttonsContainer button {
+  margin-right: 10px;
+}
+
 .gameContWrapper {
   display: flex;
   flex-direction: column;
