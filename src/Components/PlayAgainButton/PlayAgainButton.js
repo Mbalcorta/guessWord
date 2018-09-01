@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './PlayAgainButton.css';
+
 const PlayAgainButton = (props) => {
   const {onClickFunc, text } = props; 
     return(

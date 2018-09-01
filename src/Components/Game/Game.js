@@ -159,7 +159,7 @@ class Game extends Component {
     if(guessesRemaining === 0){
       gameState = (
         <div>
-          <GameContinueOrOver header="Game Over" subHeader="Computer has won" text="Play Again" func={() => this.restartGame(difficultyLevel, nextSecretWord)}/>
+          <GameContinueOrOver header="Game Over" subHeader="Computer has won" lost="lost" text="Play Again" restartGame={() => this.restartGame(difficultyLevel, nextSecretWord)}/>
         </div>
       );
       } else if(winner) {
