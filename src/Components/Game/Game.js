@@ -99,10 +99,10 @@ class Game extends Component {
   }
 
   setGuess(){
-      const letterGuess = this.inputField.current.value.toLowerCase();
-      this.setState({
-        letterGuess: letterGuess
-      });
+    const letterGuess = this.inputField.current.value.toLowerCase();
+    this.setState({
+      letterGuess: letterGuess
+    });
   }
 
   restartGame(difficultyLevel, nextSecretWord){
@@ -162,20 +162,17 @@ class Game extends Component {
           <GameContinueOrOver header="Game Over" subHeader="Computer has won" text="Play Again" func={() => this.restartGame(difficultyLevel, nextSecretWord)}/>
         </div>
       );
-    } else if(winner) {
-   
-//yarn balls fall down the screen
-      gameState = ( 
-        <div>
-          <div className="pageContent">
-            <div className="letterSlots">
-              <LettersPlaceHolder secretWord={secretWord} foundLetters={foundLetters} />
+      } else if(winner) {
+        gameState = ( 
+          <div>  
+            <div className="pageContent">
+              <div className="letterSlots">
+                <LettersPlaceHolder secretWord={secretWord} foundLetters={foundLetters} />
+              </div>
             </div>
-          </div>
-          <GameContinueOrOver header="You guessed the secret word:" subHeader="next Round!" levelUpText="Level Up" keepPracticingText="Keep Practicing" keepPracticingFunc={() => this.keepPracticing()} levelUpFunc={() => this.levelUp()}/>
-       </div>
-    );
-     
+            <GameContinueOrOver header="You guessed the secret word:" subHeader="next Round!" levelUpText="Level Up" keepPracticingText="Keep Practicing" keepPracticingFunc={() => this.keepPracticing()} levelUpFunc={() => this.levelUp()}/>
+        </div>
+      );
     } else {
      gameState = (
      <div className="pageContent">
@@ -197,9 +194,16 @@ class Game extends Component {
       pageContent = (<div className="loading">Loading...</div>);
     } else {
       let difficultyLevelText = (<h1 className="main-header__title">Difficulty Level: {difficulty}</h1>);
+      let winnerCheer = null;
+
       if(difficulty === 10){
         difficultyLevelText = (<h1 className="main-header__title">Top Level {difficulty} Achieved!</h1>);
       }
+
+      if(winner){
+        winnerCheer = '"Good job meow!"';
+      }
+
       pageContent = (
         <div>
           <header className="main-header">
@@ -209,6 +213,7 @@ class Game extends Component {
             </div>
             <div className="main-header__svg-container">
               <div className="backgroundImage">
+                <p>{winnerCheer}</p>
                 <img className="main-header__img" src={ kittenStars } />
               </div>
             </div>
