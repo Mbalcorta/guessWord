@@ -64,11 +64,11 @@ input[type="text"] {
 }
 
 .main-header__img {
-  height: 200px;
-  width: 200px;
-  background-color: rgb(212, 66, 66);;
+  width: 350px;
+  height: 350px;
+  background-color: rgb(124, 58, 183, 0.34);
   border-radius: 50%;
-  padding: 25px;
+  padding: 65px;
 }
 
 .pageContent {
