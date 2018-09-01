@@ -208,7 +208,9 @@ class Game extends Component {
               <div>Incorrect Guesses: {wrongGuess.map(letter => ` ${letter} `)}</div>
             </div>
             <div className="main-header__svg-container">
-              <img className="main-header__img" src={ kittenStars } />
+              <div className="backgroundImage">
+                <img className="main-header__img" src={ kittenStars } />
+              </div>
             </div>
             <div className="header">
               {difficultyLevelText}
